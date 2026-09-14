@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Aid Services</title>
+    <title>Financial Aid Services - MFU</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -13,408 +13,365 @@
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af' }
+                        brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' }
+                    },
+                    animation: { 'slide-up': 'slideUp 0.6s ease-out forwards' },
+                    keyframes: {
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
                     }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 0.75rem; background: #000; }
-        .video-container iframe, .video-container #ytPlayerContainer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        .animate-slide-up { animation: slideUp 0.5s ease-out forwards; opacity: 0; transform: translateY(20px); }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 0.75rem; background: #000; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        .video-container iframe, .video-container div { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        /* Hide scrollbar for aesthetics but keep functionality */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="text-slate-800 h-screen overflow-hidden flex flex-col">
+<body class="bg-slate-50 font-sans text-slate-800 antialiased selection:bg-brand-200 overflow-hidden">
 
-    <!-- Welcome Screen / Role Selection -->
-    <div id="welcomeOverlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4 transition-opacity duration-500">
-        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col md:flex-row animate-slide-up">
-            <!-- Left Side / Branding -->
-            <div class="bg-brand-600 p-8 text-white flex flex-col justify-center items-center text-center md:w-2/5">
-                <i class="fa-solid fa-graduation-cap text-6xl mb-4 opacity-90"></i>
-                <h2 class="text-2xl font-bold mb-2">Student Welfare</h2>
-                <p class="text-brand-100 text-sm">Mae Fah Luang University</p>
+    <div id="welcomeOverlay" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center p-6 transition-opacity duration-500 overflow-y-auto">
+        <div class="max-w-2xl w-full text-center animate-slide-up bg-slate-50 p-8 md:p-12 rounded-3xl shadow-xl border border-slate-100">
+            <div class="w-24 h-24 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-inner">
+                <i class="fa-solid fa-graduation-cap"></i>
             </div>
-            <!-- Right Side / Roles & Stats -->
-            <div class="p-8 md:w-3/5 flex flex-col justify-center">
-                <h3 class="text-xl font-bold text-slate-800 mb-1">Welcome!</h3>
-                <p class="text-sm text-slate-500 mb-6">Please select your visitor type to enter.</p>
-                
-                <div class="grid grid-cols-2 gap-3 mb-8">
-                    <button onclick="enterSite('school_student')" class="flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-xl hover:border-brand-500 hover:bg-brand-50 transition-all group">
-                        <i class="fa-solid fa-user-pen text-2xl text-slate-400 group-hover:text-brand-500 mb-2 transition-colors"></i>
-                        <span class="text-sm font-semibold text-slate-600 group-hover:text-brand-700">School Student</span>
-                    </button>
-                    <button onclick="enterSite('uni_student')" class="flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-xl hover:border-brand-500 hover:bg-brand-50 transition-all group">
-                        <i class="fa-solid fa-user-graduate text-2xl text-slate-400 group-hover:text-brand-500 mb-2 transition-colors"></i>
-                        <span class="text-sm font-semibold text-slate-600 group-hover:text-brand-700">University Student</span>
-                    </button>
-                    <button onclick="enterSite('mfu_staff')" class="flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-xl hover:border-brand-500 hover:bg-brand-50 transition-all group">
-                        <i class="fa-solid fa-user-tie text-2xl text-slate-400 group-hover:text-brand-500 mb-2 transition-colors"></i>
-                        <span class="text-sm font-semibold text-slate-600 group-hover:text-brand-700">MFU Staff</span>
-                    </button>
-                    <button onclick="enterSite('general_public')" class="flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-xl hover:border-brand-500 hover:bg-brand-50 transition-all group">
-                        <i class="fa-solid fa-users text-2xl text-slate-400 group-hover:text-brand-500 mb-2 transition-colors"></i>
-                        <span class="text-sm font-semibold text-slate-600 group-hover:text-brand-700">General Public</span>
-                    </button>
-                </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4 tracking-tight">Welcome to Financial Aid Services</h1>
+            <p class="text-slate-500 mb-10 text-lg">Please select your visitor type to enter the site.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+                <button onclick="window.enterSite('school_student')" class="group relative p-4 bg-white border-2 border-slate-200 hover:border-blue-500 rounded-2xl transition-all hover:shadow-md flex items-center gap-4 text-left">
+                    <div class="bg-blue-50 text-blue-500 w-12 h-12 rounded-xl flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-school"></i></div>
+                    <div><h3 class="font-bold text-slate-700 group-hover:text-blue-600 transition-colors">School Student</h3><p class="text-xs text-slate-400">High school or equivalent</p></div>
+                </button>
+                <button onclick="window.enterSite('uni_student')" class="group relative p-4 bg-white border-2 border-slate-200 hover:border-brand-500 rounded-2xl transition-all hover:shadow-md flex items-center gap-4 text-left">
+                    <div class="bg-brand-50 text-brand-500 w-12 h-12 rounded-xl flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-user-graduate"></i></div>
+                    <div><h3 class="font-bold text-slate-700 group-hover:text-brand-600 transition-colors">University Student</h3><p class="text-xs text-slate-400">Current MFU student</p></div>
+                </button>
+                <button onclick="window.enterSite('mfu_staff')" class="group relative p-4 bg-white border-2 border-slate-200 hover:border-purple-500 rounded-2xl transition-all hover:shadow-md flex items-center gap-4 text-left">
+                    <div class="bg-purple-50 text-purple-500 w-12 h-12 rounded-xl flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-chalkboard-user"></i></div>
+                    <div><h3 class="font-bold text-slate-700 group-hover:text-purple-600 transition-colors">MFU Staff</h3><p class="text-xs text-slate-400">Lecturers and personnel</p></div>
+                </button>
+                <button onclick="window.enterSite('general_public')" class="group relative p-4 bg-white border-2 border-slate-200 hover:border-green-500 rounded-2xl transition-all hover:shadow-md flex items-center gap-4 text-left">
+                    <div class="bg-green-50 text-green-500 w-12 h-12 rounded-xl flex items-center justify-center text-xl group-hover:scale-110 transition-transform"><i class="fa-solid fa-users"></i></div>
+                    <div><h3 class="font-bold text-slate-700 group-hover:text-green-600 transition-colors">General Public</h3><p class="text-xs text-slate-400">Parents and visitors</p></div>
+                </button>
+            </div>
 
-                <!-- Live Stats Dashboard -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                    <div class="flex justify-between items-center mb-3">
-                        <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Live Visitor Statistics</h4>
-                        <span class="flex h-2 w-2 relative">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                        </span>
-                    </div>
-                    <div class="flex items-end justify-between">
-                        <div>
-                            <p class="text-3xl font-bold text-brand-600 leading-none" id="stat-total">0</p>
-                            <p class="text-xs text-slate-500 mt-1">Total Visits</p>
-                        </div>
-                        <div class="text-right space-y-1">
-                            <p class="text-[10px] text-slate-500">School: <span id="stat-school" class="font-semibold text-slate-700">0</span></p>
-                            <p class="text-[10px] text-slate-500">Uni: <span id="stat-uni" class="font-semibold text-slate-700">0</span></p>
-                            <p class="text-[10px] text-slate-500">Staff: <span id="stat-staff" class="font-semibold text-slate-700">0</span></p>
-                            <p class="text-[10px] text-slate-500">Public: <span id="stat-public" class="font-semibold text-slate-700">0</span></p>
-                        </div>
-                    </div>
+            <!-- Live Dashboard -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4"><i class="fa-solid fa-chart-line mr-2"></i> Live Visitor Statistics</h4>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div class="text-center"><p class="text-2xl font-black text-slate-800" id="stat-total">0</p><p class="text-xs text-slate-500 mt-1">Total</p></div>
+                    <div class="text-center"><p class="text-xl font-bold text-blue-600" id="stat-school">0</p><p class="text-xs text-slate-500 mt-1">School</p></div>
+                    <div class="text-center"><p class="text-xl font-bold text-brand-600" id="stat-uni">0</p><p class="text-xs text-slate-500 mt-1">University</p></div>
+                    <div class="text-center"><p class="text-xl font-bold text-purple-600" id="stat-staff">0</p><p class="text-xs text-slate-500 mt-1">Staff</p></div>
+                    <div class="text-center"><p class="text-xl font-bold text-green-600" id="stat-public">0</p><p class="text-xs text-slate-500 mt-1">Public</p></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content App -->
-    <div id="mainApp" class="hidden flex-1 overflow-y-auto custom-scrollbar">
+    <div id="mainApp" class="hidden min-h-screen bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
         <!-- Header -->
-        <header class="bg-white shadow-sm sticky top-0 z-30">
-            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="bg-brand-600 text-white p-2.5 rounded-xl shadow-md shadow-brand-500/30">
-                        <i class="fa-solid fa-hand-holding-dollar text-xl"></i>
+                    <div class="bg-brand-600 text-white p-2.5 rounded-xl shadow-lg shadow-brand-500/30">
+                        <i class="fa-solid fa-building-columns text-xl"></i>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold text-slate-800 leading-tight">Financial Aid Services</h1>
-                        <p class="text-xs text-slate-500 font-medium">Student Welfare Department</p>
+                        <h1 class="text-xl font-bold text-slate-800 leading-tight">Student Welfare Department</h1>
+                        <p class="text-xs text-brand-600 font-medium tracking-wide uppercase">Mae Fah Luang University</p>
                     </div>
                 </div>
             </div>
         </header>
 
-        <!-- Main Grid -->
-        <main class="max-w-7xl mx-auto px-6 py-8">
-            <div class="mb-10 text-center animate-slide-up">
-                <h2 class="text-3xl font-bold text-slate-800 mb-4">Select the service you are interested in.</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto text-sm md:text-base">
-                    Click on the topic to watch the introductory video and view the details of each service provided by the Student Welfare Department.
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="text-center max-w-2xl mx-auto mb-12 animate-slide-up">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4 tracking-tight">Financial Aid Services</h2>
+                <p class="text-slate-600 text-lg leading-relaxed">
+                    Select the service you are interested in. Click on the topic to watch the introductory video and view the details of each service provided by the Student Welfare Department.
                 </p>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="servicesGrid">
-                <!-- Cards will be injected here via JavaScript -->
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="servicesGrid">
+                <!-- Cards injected by JS -->
             </div>
         </main>
     </div>
 
-    <!-- Modal for Video and Quiz -->
-    <div id="videoModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex justify-center items-center p-4 transition-opacity duration-300 opacity-0">
-        <div class="bg-white rounded-2xl w-full max-w-4xl max-h-[95vh] overflow-y-auto custom-scrollbar shadow-2xl transform transition-transform duration-300 scale-95" id="modalContentPanel">
-            
+    <div id="videoModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm opacity-0 hidden transition-opacity duration-300">
+        <div id="modalContentPanel" class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform scale-95 transition-all duration-300">
             <!-- Modal Header -->
-            <div class="flex items-center justify-between p-5 border-b border-slate-100 sticky top-0 bg-white z-20">
+            <div class="flex items-center justify-between p-6 border-b border-slate-100 sticky top-0 bg-white z-10">
                 <div class="flex items-center gap-3">
-                    <div id="modalIconContainer" class="p-2.5 rounded-xl text-white">
+                    <div id="modalIconContainer" class="p-2 rounded-lg text-white">
                         <i id="modalIcon" class="fa-solid fa-play"></i>
                     </div>
-                    <h3 class="text-xl md:text-2xl font-bold text-slate-800" id="modalTitle">Service Title</h3>
+                    <h3 class="text-2xl font-bold text-slate-800" id="modalTitle">Service Title</h3>
                 </div>
-                <button id="closeModalBtn" class="text-slate-400 hover:text-red-500 hover:bg-red-50 p-2.5 rounded-full transition-colors focus:outline-none">
+                <button id="closeModalBtn" class="text-slate-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-red-500">
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
             
-            <!-- Modal Body (Video) -->
-            <div class="p-6 bg-slate-50" id="videoSection">
-                <div class="video-container shadow-lg" id="videoWrapper">
+            <!-- Modal Body (Video & Description) -->
+            <div class="p-6 bg-slate-50 relative">
+                <div class="video-container shadow-md" id="videoWrapper">
                     <div id="ytPlayerContainer"></div>
                 </div>
-                <button id="skipToQuizBtn" class="mt-5 text-sm text-brand-600 hover:text-brand-800 font-medium flex items-center justify-center w-full transition-colors p-2 hover:bg-brand-50 rounded-lg">
-                    <i class="fa-solid fa-forward-step mr-2"></i> Skip to Quiz (If video finished and quiz didn't appear)
+                <button id="skipToQuizBtn" class="mt-4 text-sm text-brand-600 hover:text-brand-800 font-medium flex items-center justify-center w-full transition-colors bg-white py-2 rounded-lg border border-slate-200 shadow-sm hover:shadow">
+                    <i class="fa-solid fa-clipboard-list mr-2"></i> Proceed to Knowledge Check (Please click after watching)
                 </button>
             </div>
             
-            <!-- Modal Footer (Description) -->
             <div class="p-6 bg-white border-b border-slate-100">
-                <h4 class="font-semibold text-slate-800 mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-circle-info text-brand-500"></i> Description:
-                </h4>
-                <p class="text-slate-600 leading-relaxed text-sm md:text-base" id="modalDescription">Description will appear here.</p>
+                <h4 class="font-bold text-slate-800 mb-2 flex items-center"><i class="fa-solid fa-circle-info text-brand-500 mr-2"></i> Description:</h4>
+                <p class="text-slate-600 leading-relaxed text-lg" id="modalDescription"></p>
             </div>
 
-            <!-- Quiz Section (Hidden by default) -->
-            <div id="quizSection" class="hidden p-6 bg-white rounded-b-2xl border-t-[6px] border-brand-500">
-                <div class="flex items-center mb-6">
-                    <div class="bg-brand-100 p-3 rounded-full mr-4">
-                        <i class="fa-solid fa-clipboard-question text-2xl text-brand-600"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-xl font-bold text-slate-800">Knowledge Check</h4>
-                        <p class="text-sm text-slate-500">Please answer the questions below to test your understanding.</p>
-                    </div>
-                </div>
+            <!-- Quiz Section -->
+            <div id="quizSection" class="hidden p-6 bg-slate-50 rounded-b-2xl border-t-4 border-brand-500">
+                <h4 class="text-xl font-bold text-brand-700 mb-2 flex items-center">
+                    <i class="fa-solid fa-clipboard-question mr-2 text-2xl"></i> Knowledge Check
+                </h4>
+                <p class="text-sm text-slate-500 mb-6">Please answer the questions below to test your understanding after watching the video.</p>
+                
                 <div id="quizQuestions" class="space-y-6">
-                    <!-- Questions will be injected here -->
+                    <!-- Questions injected here -->
                 </div>
-                <button id="submitQuizBtn" class="mt-8 w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 px-4 rounded-xl transition-all shadow-md shadow-brand-500/30 hover:shadow-lg transform hover:-translate-y-0.5">
-                    Submit Answers
+                
+                <button id="submitQuizBtn" class="mt-8 w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 px-4 rounded-xl transition-all shadow-md shadow-brand-500/30 text-lg flex items-center justify-center">
+                    <i class="fa-solid fa-paper-plane mr-2"></i> Submit Answers
                 </button>
-                <div id="quizResult" class="hidden mt-6 p-5 rounded-xl text-center font-bold text-lg"></div>
+                <div id="quizResult" class="hidden mt-6 p-5 rounded-xl text-center font-bold text-lg shadow-sm"></div>
             </div>
         </div>
     </div>
 
-    <!-- Scripts (Firebase + Application Logic) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, setDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
-        // --- Configuration ---
-        
-        // 1. Firebase Config (Replace with your actual config if hosting on Netlify/GitHub Pages)
-        // If left empty, the app will gracefully fallback to Local Storage mode without errors.
+        // =====================================================================
+        // 🔴🔴🔴 Replace this with your actual Firebase config 🔴🔴🔴
+        // =====================================================================
         const firebaseConfig = {
             // apiKey: "YOUR_API_KEY",
-            // authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            // authDomain: "YOUR_AUTH_DOMAIN",
             // projectId: "YOUR_PROJECT_ID",
-            // storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            // messagingSenderId: "YOUR_SENDER_ID",
+            // storageBucket: "YOUR_STORAGE_BUCKET",
+            // messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
             // appId: "YOUR_APP_ID"
         };
+        // =====================================================================
 
-        // 2. Data Configuration (English Content & Quiz)
         const servicesData = [
             {
                 id: 'scholarship',
                 title: 'Scholarships',
                 icon: 'fa-book-open-reader',
-                colorClass: 'bg-blue-500', hoverClass: 'hover:border-blue-500', lightBgClass: 'bg-blue-50', textColorClass: 'text-blue-600',
+                colorClass: 'bg-blue-500',
+                hoverClass: 'hover:border-blue-500',
+                lightBgClass: 'bg-blue-50',
+                textColorClass: 'text-blue-600',
                 description: 'Counseling and application services for various types of scholarships for students with good academic standing and behavior who are in financial need.',
-                videoId: 'qRUIwliVHJU',
+                driveId: '1fa3kWSrmvm7xEVSjaXwWwgZV_9g8mzco',
                 quiz: [
-                    { question: 'Who is the primary target group for this scholarship?', options: ['Students with high financial status', 'Students with good academic standing and behavior in financial need', 'Any student regardless of grades or behavior'], answer: 1 },
-                    { question: 'What is the main purpose of this service?', options: ['To provide counseling and application services for scholarships', 'To give loans to students', 'To offer part-time jobs'], answer: 0 },
-                    { question: 'Which criteria is NOT explicitly mentioned for this scholarship?', options: ['Financial need', 'Good academic standing', 'Athletic excellence'], answer: 2 },
-                    { question: 'What department provides this service?', options: ['Student Welfare Department', 'Registration Office', 'IT Services'], answer: 0 },
-                    { question: 'Besides academic standing, what other personal trait is required?', options: ['Good behavior', 'Public speaking skills', 'Leadership experience'], answer: 0 }
+                    { question: 'What is the primary purpose of this scholarship service?', options: ['To provide counseling and applications for students in financial need', 'To fund international travel', 'To pay for luxury items'], answer: 0 },
+                    { question: 'Who is eligible for these scholarships?', options: ['Any student', 'Students with good academic standing, good behavior, and financial need', 'Only graduate students'], answer: 1 },
+                    { question: 'What types of scholarships are included?', options: ['Only athletic scholarships', 'Various types of scholarships', 'Only fully-funded study abroad programs'], answer: 1 },
+                    { question: 'Does this service include counseling?', options: ['Yes', 'No', 'Only for alumni'], answer: 0 },
+                    { question: 'Is financial need a criteria for this service?', options: ['Yes', 'No', 'Only for first-year students'], answer: 0 }
                 ]
             },
             {
                 id: 'lunch',
                 title: 'Student Lunch Project',
                 icon: 'fa-utensils',
-                colorClass: 'bg-green-500', hoverClass: 'hover:border-green-500', lightBgClass: 'bg-green-50', textColorClass: 'text-green-600',
+                colorClass: 'bg-green-500',
+                hoverClass: 'hover:border-green-500',
+                lightBgClass: 'bg-green-50',
+                textColorClass: 'text-green-600',
                 description: 'This project is designed for students who wish to earn extra income during their studies. Students can assist with operations across various university departments, working up to 4 hours per day at a rate of 30 THB/Hour.',
-                videoId: 'ECDgaBqQ29o',
+                driveId: '11FJpGK9pLyiklU3IbFvFzoKHpWqdSYYG',
                 quiz: [
-                    { question: 'What is the main goal of the Student Lunch Project for participants?', options: ['To get free meals directly', 'To earn extra income during studies', 'To borrow money for tuition'], answer: 1 },
-                    { question: 'What is the hourly compensation rate?', options: ['20 THB/Hour', '30 THB/Hour', '50 THB/Hour'], answer: 1 },
                     { question: 'What is the maximum number of hours a student can work per day?', options: ['2 hours', '4 hours', '8 hours'], answer: 1 },
-                    { question: 'Where do the students work for this project?', options: ['Outside the university', 'Across various university departments', 'Only in the cafeteria'], answer: 1 },
-                    { question: 'If a student works the maximum hours per day, how much will they earn in that day?', options: ['90 THB', '120 THB', '150 THB'], answer: 1 }
+                    { question: 'What is the hourly pay rate for this project?', options: ['30 THB/Hour', '50 THB/Hour', '100 THB/Hour'], answer: 0 },
+                    { question: 'Who is this project designed for?', options: ['Teachers', 'Students who wish to earn extra income', 'Alumni'], answer: 1 },
+                    { question: 'Where do students assist with operations?', options: ['Outside the university', 'Across various university departments', 'At local high schools'], answer: 1 },
+                    { question: 'What is the main benefit of this project?', options: ['Free textbooks', 'Earning extra income during studies', 'Free transportation'], answer: 1 }
                 ]
             },
             {
                 id: 'emergency-loan',
                 title: 'Emergency Loan',
                 icon: 'fa-hand-holding-dollar',
-                colorClass: 'bg-orange-500', hoverClass: 'hover:border-orange-500', lightBgClass: 'bg-orange-50', textColorClass: 'text-orange-600',
+                colorClass: 'bg-orange-500',
+                hoverClass: 'hover:border-orange-500',
+                lightBgClass: 'bg-orange-50',
+                textColorClass: 'text-orange-600',
                 description: 'This project aims to relieve temporary financial distress arising from urgent and unforeseen life or educational needs for Mae Fah Luang University students. Students can borrow up to 2,000 THB/Request, interest-free, with a maximum repayment term of 30 days from the date of borrowing.',
-                videoId: 'B-ehO8bi0fc',
+                driveId: '1fb4VEM1P1MzWIGxpdJX125M-x4y1TmB9',
                 quiz: [
-                    { question: 'What type of distress is the Emergency Loan meant to relieve?', options: ['Long-term business debt', 'Temporary financial distress from urgent/unforeseen needs', 'Desire to purchase luxury goods'], answer: 1 },
-                    { question: 'What is the maximum amount a student can borrow per request?', options: ['1,000 THB', '2,000 THB', '5,000 THB'], answer: 1 },
-                    { question: 'What is the interest rate applied to this loan?', options: ['5% per month', '2% per month', 'Interest-free'], answer: 2 },
-                    { question: 'What is the maximum repayment term?', options: ['15 days from borrowing date', '30 days from borrowing date', 'Until graduation'], answer: 1 },
-                    { question: 'Who is eligible to apply for this specific loan?', options: ['General public', 'Mae Fah Luang University students', 'University Staff'], answer: 1 }
+                    { question: 'What is the maximum loan amount per request?', options: ['1,000 THB', '2,000 THB', '5,000 THB'], answer: 1 },
+                    { question: 'What is the interest rate for this emergency loan?', options: ['5%', '10%', 'Interest-free'], answer: 2 },
+                    { question: 'What is the maximum repayment term?', options: ['30 days from borrowing', '60 days', 'By the end of the year'], answer: 0 },
+                    { question: 'What kind of situations is this loan for?', options: ['Vacations', 'Urgent and unforeseen life or educational needs', 'Buying a new car'], answer: 1 },
+                    { question: 'Who is eligible for this loan?', options: ['Mae Fah Luang University students', 'Anyone in Chiang Rai', 'High school students'], answer: 0 }
                 ]
             },
             {
                 id: 'thai-help-thai',
                 title: 'Thai Chuay Thai Emergency Loan Fund',
                 icon: 'fa-hands-holding-child',
-                colorClass: 'bg-rose-500', hoverClass: 'hover:border-rose-500', lightBgClass: 'bg-rose-50', textColorClass: 'text-rose-600',
+                colorClass: 'bg-rose-500',
+                hoverClass: 'hover:border-rose-500',
+                lightBgClass: 'bg-rose-50',
+                textColorClass: 'text-rose-600',
                 description: 'This initiative helps alleviate financial hardship for students struggling with educational expenses. Students may submit a request to borrow up to 5,000 THB/Semester, interest-free, with full repayment required within the same semester the loan is granted.',
-                videoId: '3l8rfBQRxAs',
+                driveId: '1V4NH0BIjprtFcwJKHmVyadktXq7QgJ4H',
                 quiz: [
-                    { question: 'What is the primary purpose of this fund?', options: ['To fund student startups', 'To alleviate financial hardship for educational expenses', 'To cover travel expenses'], answer: 1 },
-                    { question: 'What is the maximum borrowing limit?', options: ['2,000 THB/Request', '5,000 THB/Semester', '10,000 THB/Year'], answer: 1 },
-                    { question: 'When must the full repayment be made?', options: ['Within 30 days', 'Within the same semester the loan is granted', 'After graduation'], answer: 1 },
-                    { question: 'What kind of interest is applied to this loan?', options: ['Interest-free', 'Low interest', 'Standard bank interest'], answer: 0 },
-                    { question: 'How frequently is the borrowing limit applied?', options: ['Per month', 'Per semester', 'Per academic year'], answer: 1 }
+                    { question: 'What is the maximum amount a student can borrow per semester?', options: ['2,000 THB', '5,000 THB', '10,000 THB'], answer: 1 },
+                    { question: 'When is the full repayment required?', options: ['Within the same semester', 'After graduation', 'In 2 years'], answer: 0 },
+                    { question: 'What is the interest rate on this loan?', options: ['Interest-free', '3%', '7%'], answer: 0 },
+                    { question: 'What is the main goal of this initiative?', options: ['To alleviate financial hardship for educational expenses', 'To provide funds for entertainment', 'To buy university merchandise'], answer: 0 },
+                    { question: 'How often can a student request this loan limit?', options: ['Per month', 'Per semester', 'Once a lifetime'], answer: 1 }
                 ]
             },
             {
                 id: 'fee-waiver',
                 title: 'Tuition Fee Extension',
                 icon: 'fa-file-invoice-dollar',
-                colorClass: 'bg-purple-500', hoverClass: 'hover:border-purple-500', lightBgClass: 'bg-purple-50', textColorClass: 'text-purple-600',
+                colorClass: 'bg-purple-500',
+                hoverClass: 'hover:border-purple-500',
+                lightBgClass: 'bg-purple-50',
+                textColorClass: 'text-purple-600',
                 description: 'This scheme provides financial relief to students with demonstrated need for tuition fee payments in a given semester. Students may receive a temporary extension to pay in installments according to a specified schedule; full payment must be completed within that semester to qualify for enrollment in the following semester.',
-                videoId: 'gttqBJYD-uw',
+                driveId: '1soYTVgMabO-dQCAR3fZc5pLMPo4uouvA',
                 quiz: [
-                    { question: 'What does the Tuition Fee Extension scheme provide?', options: ['A permanent discount on tuition', 'A temporary extension to pay tuition in installments', 'Cash directly given to the student'], answer: 1 },
-                    { question: 'Who is this scheme for?', options: ['Students with demonstrated need for tuition fee payments', 'All students automatically', 'Only first-year students'], answer: 0 },
-                    { question: 'How are the payments structured under this extension?', options: ['Paid all at once at the very end', 'Paid in installments according to a specified schedule', 'Deducted from future salary'], answer: 1 },
-                    { question: 'When is the absolute deadline for full payment under this scheme?', options: ['Within that same semester', 'Before graduation', 'Within one year'], answer: 0 },
-                    { question: 'What is the consequence of not completing the full payment within the semester?', options: ['A small fine is applied', 'Will not qualify for enrollment in the following semester', 'The debt is forgiven'], answer: 1 }
+                    { question: 'What does this scheme provide?', options: ['A full scholarship', 'A temporary extension to pay in installments', 'A direct cash grant'], answer: 1 },
+                    { question: 'What is the condition for qualifying for enrollment in the following semester?', options: ['Maintaining a 4.0 GPA', 'Full payment must be completed within the current semester', 'Joining a university club'], answer: 1 },
+                    { question: 'Who is this financial relief aimed at?', options: ['Students with demonstrated need for tuition fee payments', 'International students only', 'Staff members'], answer: 0 },
+                    { question: 'Can the tuition fee be paid in installments?', options: ['Yes, according to a specified schedule', 'No, it must be a single payment', 'Only for the first month'], answer: 0 },
+                    { question: 'Does this scheme waive the tuition fee permanently?', options: ['Yes', 'No, it is a temporary extension', 'Yes, but only half of it'], answer: 1 }
                 ]
             }
         ];
 
-        // --- State Management ---
         let db, auth;
+        let currentServiceId = null;
         let useLocalStorageFallback = false;
-        const STATS_DOC_ID = 'global_stats';
 
-        // --- Core Functions ---
-
-        // Initialize tracking system (Firebase OR Fallback)
-        async function initializeTracking() {
+        async function initializeFirebase() {
             try {
-                if (!firebaseConfig.apiKey) throw new Error("Firebase config missing");
-                
+                if (!firebaseConfig.apiKey || firebaseConfig.apiKey.includes("YOUR_API_KEY")) {
+                    console.warn("⚠️ Firebase Config is missing: Using Local Storage fallback.");
+                    useLocalStorageFallback = true;
+                    setupLiveStatsLocal();
+                    return;
+                }
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
 
-                // Authenticate anonymously FIRST to prevent permission errors
                 onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        // Safe to attach snapshot listener now
-                        setupLiveStatsFirebase();
-                    }
+                    if (user) setupLiveStatsFirebase();
                 });
-
                 await signInAnonymously(auth);
             } catch (error) {
-                console.warn("Using Local Storage for tracking due to Firebase setup/permission missing:", error.message);
+                console.error("🔥 Firebase Init Error:", error);
                 useLocalStorageFallback = true;
                 setupLiveStatsLocal();
             }
         }
 
-        // --- Fallback (Local Storage) Implementation ---
+        function setupLiveStatsFirebase() {
+            const docRef = doc(db, 'system_stats', 'visitor_counts');
+            onSnapshot(docRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    updateUINumbers(docSnap.data());
+                } else {
+                    setDoc(docRef, { total: 0, school_student: 0, uni_student: 0, mfu_staff: 0, general_public: 0 })
+                        .catch(err => console.warn("Cannot create db:", err));
+                }
+            }, (error) => {
+                console.error("❌ Firestore read error:", error);
+                useLocalStorageFallback = true;
+                setupLiveStatsLocal();
+            });
+        }
+
+        async function recordVisitFirebase(role) {
+            try {
+                const docRef = doc(db, 'system_stats', 'visitor_counts');
+                await setDoc(docRef, { total: increment(1), [role]: increment(1) }, { merge: true });
+            } catch (error) {
+                console.error("Failed to record visit:", error);
+            }
+        }
+
         function getLocalStats() {
             const defaultStats = { total: 0, school_student: 0, uni_student: 0, mfu_staff: 0, general_public: 0 };
-            const stored = localStorage.getItem('site_stats');
+            const stored = localStorage.getItem('mfu_site_stats');
             return stored ? JSON.parse(stored) : defaultStats;
         }
 
         function updateUINumbers(data) {
-            document.getElementById('stat-total').textContent = data.total || 0;
-            document.getElementById('stat-school').textContent = data.school_student || 0;
-            document.getElementById('stat-uni').textContent = data.uni_student || 0;
-            document.getElementById('stat-staff').textContent = data.mfu_staff || 0;
-            document.getElementById('stat-public').textContent = data.general_public || 0;
+            const ids = { 'stat-total': 'total', 'stat-school': 'school_student', 'stat-uni': 'uni_student', 'stat-staff': 'mfu_staff', 'stat-public': 'general_public' };
+            for (const [elementId, dataKey] of Object.entries(ids)) {
+                const el = document.getElementById(elementId);
+                if (el) el.textContent = data[dataKey] || 0;
+            }
         }
 
         function setupLiveStatsLocal() {
             updateUINumbers(getLocalStats());
-            // Listen to changes from other tabs
-            window.addEventListener('storage', (e) => {
-                if (e.key === 'site_stats') updateUINumbers(JSON.parse(e.newValue));
-            });
         }
 
         function recordVisitLocal(role) {
             const stats = getLocalStats();
             stats.total += 1;
             stats[role] = (stats[role] || 0) + 1;
-            localStorage.setItem('site_stats', JSON.stringify(stats));
-            updateUINumbers(stats); // Update immediately
+            localStorage.setItem('mfu_site_stats', JSON.stringify(stats));
+            updateUINumbers(stats);
         }
 
-        // --- Firebase Implementation ---
-        function setupLiveStatsFirebase() {
-            const docRef = doc(db, 'system_data', STATS_DOC_ID);
-            onSnapshot(docRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    updateUINumbers(docSnap.data());
-                } else {
-                    // Initialize document if it doesn't exist
-                    setDoc(docRef, { total: 0, school_student: 0, uni_student: 0, mfu_staff: 0, general_public: 0 })
-                        .catch(err => console.warn("Could not create initial stats doc (permissions):", err));
-                }
-            }, (error) => {
-                console.warn("Live stats listener error (permissions). Switching to local UI.", error.message);
-            });
-        }
-
-        async function recordVisitFirebase(role) {
-            try {
-                // Wait for auth if not ready
-                if (!auth.currentUser) await signInAnonymously(auth);
-
-                const docRef = doc(db, 'system_data', STATS_DOC_ID);
-                await setDoc(docRef, {
-                    total: increment(1),
-                    [role]: increment(1)
-                }, { merge: true });
-
-                // Optional: Log individual visit
-                await addDoc(collection(db, 'visits_log'), {
-                    role: role,
-                    timestamp: serverTimestamp()
-                });
-            } catch (error) {
-                console.warn("Failed to record visit to Firebase. Saving locally.", error);
-                recordVisitLocal(role);
-            }
-        }
-
-        // --- UI Interactions ---
-
-        // Global function to be called from HTML onclick
+        // Must be attached to window since it's called from HTML inline onclick
         window.enterSite = function(role) {
-            // Record visit based on active system
-            if (useLocalStorageFallback) {
-                recordVisitLocal(role);
-            } else {
-                recordVisitFirebase(role);
-            }
+            if (useLocalStorageFallback) recordVisitLocal(role);
+            else recordVisitFirebase(role);
 
-            // Hide overlay, show main app
             const overlay = document.getElementById('welcomeOverlay');
-            overlay.classList.remove('animate-slide-up');
-            overlay.classList.add('opacity-0');
-            
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-                document.getElementById('mainApp').classList.remove('hidden');
-                document.body.classList.remove('overflow-hidden');
-            }, 500);
+            if (overlay) {
+                overlay.classList.remove('animate-slide-up');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    const mainApp = document.getElementById('mainApp');
+                    if (mainApp) mainApp.classList.remove('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }, 500);
+            }
         };
 
-        // Render Services Grid
         function renderCards() {
-            const grid = document.getElementById('servicesGrid');
+            const servicesGrid = document.getElementById('servicesGrid');
+            if (!servicesGrid) return;
+            
             servicesData.forEach((service, index) => {
-                const delay = index * 100;
                 const card = document.createElement('div');
                 card.className = `bg-white rounded-2xl shadow-sm border-2 border-transparent p-6 cursor-pointer transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl ${service.hoverClass} animate-slide-up flex flex-col h-full`;
-                card.style.animationDelay = `${delay}ms`;
+                card.style.animationDelay = `${index * 100}ms`;
                 card.style.animationFillMode = 'both';
-                
                 card.innerHTML = `
                     <div class="${service.lightBgClass} ${service.textColorClass} w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm transition-transform duration-300 group-hover:scale-110">
                         <i class="fa-solid ${service.icon}"></i>
@@ -427,95 +384,102 @@
                     </div>
                 `;
                 card.addEventListener('click', () => openModal(service));
-                grid.appendChild(card);
+                servicesGrid.appendChild(card);
             });
         }
-
-        // Video Modal Logic
-        let ytPlayer = null;
-        let currentServiceId = null;
-
-        // Load YouTube API
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         function openModal(service) {
             currentServiceId = service.id;
             
-            document.getElementById('modalTitle').textContent = service.title;
-            document.getElementById('modalDescription').textContent = service.description;
-            
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
             const modalIcon = document.getElementById('modalIcon');
-            const iconContainer = document.getElementById('modalIconContainer');
-            modalIcon.className = `fa-solid ${service.icon} text-xl`;
-            iconContainer.className = `p-3 rounded-xl text-white ${service.colorClass} shadow-md`;
-
-            // Reset UI
-            document.getElementById('quizSection').classList.add('hidden');
-            document.getElementById('quizResult').classList.add('hidden');
-            document.getElementById('submitQuizBtn').classList.remove('hidden');
-            document.getElementById('skipToQuizBtn').classList.remove('hidden');
-
+            const modalIconContainer = document.getElementById('modalIconContainer');
+            const quizSection = document.getElementById('quizSection');
+            const quizResult = document.getElementById('quizResult');
+            const submitQuizBtn = document.getElementById('submitQuizBtn');
+            const skipToQuizBtn = document.getElementById('skipToQuizBtn');
             const videoWrapper = document.getElementById('videoWrapper');
-            videoWrapper.innerHTML = '<div id="ytPlayerContainer"></div>';
-            
-            if (typeof YT !== 'undefined' && YT.Player) {
-                ytPlayer = new YT.Player('ytPlayerContainer', {
-                    videoId: service.videoId,
-                    playerVars: { 'autoplay': 1, 'rel': 0, 'playsinline': 1 },
-                    events: {
-                        'onStateChange': function(event) {
-                            if (event.data === 0) showQuiz(service); // Video Ended
-                        }
-                    }
-                });
-            } else {
-                const embedUrl = `https://www.youtube-nocookie.com/embed/${service.videoId}?autoplay=1&rel=0`;
-                document.getElementById('ytPlayerContainer').outerHTML = `<iframe src="${embedUrl}" title="${service.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen class="w-full h-full absolute top-0 left-0"></iframe>`;
+            const videoModal = document.getElementById('videoModal');
+            const modalContentPanel = document.getElementById('modalContentPanel');
+
+            if (modalTitle) modalTitle.textContent = service.title;
+            if (modalDescription) modalDescription.textContent = service.description;
+            if (modalIcon) modalIcon.className = `fa-solid ${service.icon} text-xl`;
+            if (modalIconContainer) modalIconContainer.className = `p-3 rounded-xl text-white ${service.colorClass} shadow-md`;
+
+            if (quizSection) quizSection.classList.add('hidden');
+            if (quizResult) quizResult.classList.add('hidden');
+            if (submitQuizBtn) submitQuizBtn.classList.remove('hidden');
+            if (skipToQuizBtn) skipToQuizBtn.classList.remove('hidden');
+
+            if (videoWrapper) {
+                const embedUrl = `https://drive.google.com/file/d/${service.driveId}/preview`;
+                videoWrapper.innerHTML = `<iframe src="${embedUrl}" title="${service.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full absolute top-0 left-0"></iframe>`;
             }
 
-            const modal = document.getElementById('videoModal');
-            const panel = document.getElementById('modalContentPanel');
-            modal.classList.remove('hidden');
-            void modal.offsetWidth; // Reflow
-            modal.classList.remove('opacity-0');
-            panel.classList.remove('scale-95');
-            panel.classList.add('scale-100');
-            document.body.style.overflow = 'hidden';
+            if (videoModal && modalContentPanel) {
+                videoModal.classList.remove('hidden');
+                void videoModal.offsetWidth; // trigger reflow
+                videoModal.classList.remove('opacity-0');
+                modalContentPanel.classList.remove('scale-95');
+                modalContentPanel.classList.add('scale-100');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal() {
+            const videoModal = document.getElementById('videoModal');
+            const modalContentPanel = document.getElementById('modalContentPanel');
+            const videoWrapper = document.getElementById('videoWrapper');
+
+            if (videoModal && modalContentPanel) {
+                videoModal.classList.add('opacity-0');
+                modalContentPanel.classList.remove('scale-100');
+                modalContentPanel.classList.add('scale-95');
+                
+                setTimeout(() => {
+                    videoModal.classList.add('hidden');
+                    if (videoWrapper) videoWrapper.innerHTML = '';
+                    document.body.style.overflow = 'auto';
+                }, 300);
+            }
         }
 
         function showQuiz(service) {
-            document.getElementById('skipToQuizBtn').classList.add('hidden');
-            
-            let quizHtml = '';
-            service.quiz.forEach((q, index) => {
-                quizHtml += `
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="font-semibold text-slate-800 mb-4 text-[15px] leading-relaxed">${index + 1}. ${q.question}</p>
-                        <div class="space-y-2.5">
-                `;
-                q.options.forEach((opt, optIndex) => {
-                    quizHtml += `
-                            <label class="flex items-start space-x-3 cursor-pointer p-3 bg-white hover:bg-brand-50 border border-slate-200 hover:border-brand-300 rounded-lg transition-all group">
-                                <div class="flex-shrink-0 pt-0.5">
-                                    <input type="radio" name="quiz_${service.id}_q${index}" value="${optIndex}" class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500 mt-1">
-                                </div>
-                                <span class="text-slate-700 text-sm font-medium group-hover:text-brand-800">${opt}</span>
-                            </label>
-                    `;
-                });
-                quizHtml += `</div></div>`;
-            });
-            
+            const skipToQuizBtn = document.getElementById('skipToQuizBtn');
+            const quizQuestions = document.getElementById('quizQuestions');
             const quizSection = document.getElementById('quizSection');
-            document.getElementById('quizQuestions').innerHTML = quizHtml;
-            quizSection.classList.remove('hidden');
+
+            if (skipToQuizBtn) skipToQuizBtn.classList.add('hidden');
             
-            setTimeout(() => {
-                quizSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100);
+            if (quizQuestions) {
+                let quizHtml = '';
+                service.quiz.forEach((q, index) => {
+                    quizHtml += `
+                        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm transition-all hover:border-brand-300">
+                            <p class="font-bold text-slate-800 mb-4 text-lg">Q${index + 1}: ${q.question}</p>
+                            <div class="space-y-3">
+                    `;
+                    q.options.forEach((opt, optIndex) => {
+                        quizHtml += `
+                                <label class="flex items-center space-x-3 cursor-pointer p-4 bg-slate-50 hover:bg-brand-50 border border-slate-200 hover:border-brand-300 rounded-xl transition-all">
+                                    <input type="radio" name="quiz_${service.id}_q${index}" value="${optIndex}" class="w-5 h-5 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                    <span class="text-slate-700 font-medium">${opt}</span>
+                                </label>
+                        `;
+                    });
+                    quizHtml += `</div></div>`;
+                });
+                quizQuestions.innerHTML = quizHtml;
+            }
+            
+            if (quizSection) {
+                quizSection.classList.remove('hidden');
+                setTimeout(() => {
+                    quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
         }
 
         function evaluateQuiz() {
@@ -532,68 +496,66 @@
             });
 
             if (!allAnswered) {
-                alert('Please select an answer for all questions before submitting.');
+                alert('Please answer all questions before submitting.');
                 return;
             }
 
-            document.getElementById('submitQuizBtn').classList.add('hidden');
-            const resultDiv = document.getElementById('quizResult');
-            resultDiv.classList.remove('hidden');
+            const submitQuizBtn = document.getElementById('submitQuizBtn');
+            const quizResult = document.getElementById('quizResult');
 
-            const total = service.quiz.length;
-            if (score === total) {
-                resultDiv.innerHTML = `<i class="fa-solid fa-circle-check text-3xl mb-2"></i><br>Excellent! You scored ${score}/${total}`;
-                resultDiv.className = 'mt-6 p-5 rounded-xl text-center font-bold text-lg bg-green-100 text-green-700 border-2 border-green-200 animate-slide-up';
-            } else {
-                resultDiv.innerHTML = `<i class="fa-solid fa-award text-3xl mb-2"></i><br>You scored ${score}/${total} <br><span class="text-sm font-normal mt-2 block opacity-80">Please review the information and try again to improve your score.</span>`;
-                resultDiv.className = 'mt-6 p-5 rounded-xl text-center font-bold text-lg bg-orange-100 text-orange-700 border-2 border-orange-200 animate-slide-up';
+            if (submitQuizBtn) submitQuizBtn.classList.add('hidden');
+            
+            if (quizResult) {
+                quizResult.classList.remove('hidden');
+                const total = service.quiz.length;
+                if (score === total) {
+                    quizResult.innerHTML = `<i class="fa-solid fa-circle-check text-3xl mb-3"></i><br>Excellent!<br>You scored ${score}/${total}`;
+                    quizResult.className = 'mt-6 p-6 rounded-2xl text-center font-bold text-xl bg-green-100 text-green-700 border border-green-200 animate-slide-up shadow-sm';
+                } else {
+                    quizResult.innerHTML = `<i class="fa-solid fa-award text-3xl mb-3"></i><br>You scored ${score}/${total} <br><span class="text-base font-normal mt-2 block text-orange-600">Please review the video information and try again to improve your score.</span>`;
+                    quizResult.className = 'mt-6 p-6 rounded-2xl text-center font-bold text-xl bg-orange-100 text-orange-800 border border-orange-200 animate-slide-up shadow-sm';
+                }
             }
         }
 
-        function closeModal() {
-            const modal = document.getElementById('videoModal');
-            const panel = document.getElementById('modalContentPanel');
-            
-            modal.classList.add('opacity-0');
-            panel.classList.remove('scale-100');
-            panel.classList.add('scale-95');
-            
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                if (ytPlayer && ytPlayer.destroy) {
-                    ytPlayer.destroy();
-                    ytPlayer = null;
-                }
-                document.getElementById('videoWrapper').innerHTML = '';
-                document.body.style.overflow = 'auto'; // Keep hidden if overlay is still active, but logic handles it
-                if (!document.getElementById('welcomeOverlay').classList.contains('hidden')) {
-                    document.body.classList.add('overflow-hidden');
-                }
-            }, 300);
-        }
-
-        // --- Event Listeners Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
-            renderCards();
-            initializeTracking(); // Start Tracking (Firebase or Local)
+            // Safely attach event listeners only if elements exist in the DOM
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const skipToQuizBtn = document.getElementById('skipToQuizBtn');
+            const submitQuizBtn = document.getElementById('submitQuizBtn');
+            const videoModal = document.getElementById('videoModal');
+
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', closeModal);
+            }
             
-            // Bind Modal Events
-            document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-            document.getElementById('submitQuizBtn').addEventListener('click', evaluateQuiz);
-            document.getElementById('skipToQuizBtn').addEventListener('click', () => {
-                const service = servicesData.find(s => s.id === currentServiceId);
-                if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
-                if (service) showQuiz(service);
-            });
+            if (skipToQuizBtn) {
+                skipToQuizBtn.addEventListener('click', () => {
+                    const service = servicesData.find(s => s.id === currentServiceId);
+                    if (service) showQuiz(service);
+                });
+            }
             
-            document.getElementById('videoModal').addEventListener('click', (e) => {
-                if (e.target.id === 'videoModal') closeModal();
-            });
+            if (submitQuizBtn) {
+                submitQuizBtn.addEventListener('click', evaluateQuiz);
+            }
+            
+            if (videoModal) {
+                videoModal.addEventListener('click', (e) => {
+                    if (e.target === videoModal) closeModal();
+                });
+            }
+
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && !document.getElementById('videoModal').classList.contains('hidden')) {
+                const modal = document.getElementById('videoModal');
+                if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
                     closeModal();
                 }
             });
+
+            // Start initialization
+            renderCards();
+            initializeFirebase();
         });
     </script>
 </body>
